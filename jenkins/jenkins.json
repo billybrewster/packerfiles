@@ -1,0 +1,46 @@
+{
+   "builders": [
+   {
+     "type": "docker",
+     "image": "jenkins/jenkins",
+     "commit": true,
+     "exec_user": "root",
+     "run_command": [
+       "-d", "-i", "-t",
+       "--net=host",
+       "{{.Image}}"
+     ]
+   }
+   ],
+   "provisioners": [
+   {
+     "type": "file",
+     "source": "plugins.txt",
+     "destination": "/var/tmp/plugins.txt"
+   },
+   {
+     "type": "file",
+     "source": "jenkins_config.xml",
+     "destination": "/var/tmp/jenkins_config.xml"
+   },
+   {
+     "type": "file",
+     "source": "provision.sh",
+     "destination": "/var/tmp/provision.sh"
+   },
+   {
+     "inline": [
+       "/var/tmp/provision.sh"
+     ],
+     "type": "shell"
+   }
+   ],
+   "post-processors": [
+     {
+       "type": "docker-import",
+       "repository": "camlite_jenkins",
+       "tag": "latest"
+     },
+     "docker-push"
+   ]
+}
