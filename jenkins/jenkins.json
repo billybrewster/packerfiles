@@ -36,11 +36,19 @@
    }
    ],
    "post-processors": [
+     [
      {
-       "type": "docker-import",
-       "repository": "camlite_jenkins",
-       "tag": "latest"
+        "type":"docker-tag",
+        "repository" : "billybrewster/jenkins_master",
+        "tag": "latest",
+        "force": "true"
      },
-     "docker-push"
+     {
+       "type": "docker-push",
+       "login": "true",
+       "login_username": "billybrewster",
+       "login_password": "Newcastle1892!"
+     }
+     ]
    ]
 }

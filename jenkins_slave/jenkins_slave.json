@@ -1,0 +1,47 @@
+{
+   "builders": [
+   {
+     "type": "docker",
+     "image": "centos",
+     "commit": true,
+     "exec_user": "root",
+     "changes": [
+    "EXPOSE 22",
+    "ENTRYPOINT /usr/sbin/sshd -D"
+  ]
+   }
+   ],
+   "provisioners": [
+   {
+     "inline": [
+       "yum install -y graphviz",
+       "yum install -y wget",
+       "wget https://github.com/jgm/pandoc/releases/download/2.1.1/pandoc-2.1.1-linux.tar.gz",
+       "gunzip pandoc-2.1.1-linux.tar.gz",
+       "tar -xvf pandoc-2.1.1-linux.tar",
+       "cp pandoc-2.1.1/bin/* /usr/local/bin/",
+       "useradd jenkins",
+       "yum install -y java",
+       "yum install -y openssh-server",
+       "ssh-keygen -A"
+     ],
+     "type": "shell"
+   }
+   ],
+   "post-processors": [
+     [
+     {
+        "type":"docker-tag",
+        "repository" : "billybrewster/jenkins_slave",
+        "tag": "latest",
+        "force": "true"
+     },
+     {
+       "type": "docker-push",
+       "login": "true",
+       "login_username": "billybrewster",
+       "login_password": "Newcastle1892!"
+     }
+     ]
+   ]
+}

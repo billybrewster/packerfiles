@@ -15,4 +15,4 @@ cp /var/jenkins_home/config.xml /var/jenkins_home/config2.xml
 chown root:root /var/jenkins_home/config.xml
 cp /var/jenkins_home/config.xml /usr/share/jenkins/ref/
 #sed -i -e '#<globalNodeProperties\>#r /var/tmp/jenkins_config.xml' /var/jenkins_home/config.xml
-#/usr/local/bin/plugins.sh /var/tmp/plugins.txt
+/usr/local/bin/plugins.sh /var/tmp/plugins.txt
