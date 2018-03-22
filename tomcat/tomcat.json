@@ -12,11 +12,14 @@
    ]
    }
    ],
+   "variables": {
+    "version_no": "{{env `VERSION_NO`}}"
+   },
    "provisioners": [
    {
      "inline": [
-       "wget http://192.168.161.245:8081/nexus/content/repositories/releases/com/efsavage/hello-world-war/1.0.0/hello-world-war-1.0.0.war",
-       "cp hello-world-war-1.0.0.war /usr/local/tomcat/webapps/"
+       "wget http://192.168.0.28:8081/nexus/content/repositories/releases/com/efsavage/hello-world-war/{{user `version_no`}}/hello-world-war-{{user `version_no`}}.war",
+       "cp hello-world-war-{{user `version_no`}}.war /usr/local/tomcat/webapps/hello-world.war"
      ],
      "type": "shell"
    }

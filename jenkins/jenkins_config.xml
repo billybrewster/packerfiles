@@ -21,7 +21,12 @@
             <hostname></hostname>
             <dnsHosts/>
             <network></network>
-            <volumes/>
+            <volumes>
+              <string>-v</string>
+              <string>/usr/local/bin/docker:/usr/local/bin/docker</string>
+              <string>-v</string>
+              <string>/var/run/docker.sock:/var/run/docker.sock</string>
+            </volumes>
             <volumesFrom2/>
             <environment/>
             <bindPorts></bindPorts>
