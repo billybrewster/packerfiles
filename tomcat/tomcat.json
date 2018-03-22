@@ -1,0 +1,40 @@
+{
+   "builders": [
+   {
+     "type": "docker",
+     "image": "tomcat:8.0",
+     "commit": true,
+     "exec_user": "root",
+     "run_command": [
+       "-d", "-i", "-t",
+       "--net=host",
+       "{{.Image}}"
+   ]
+   }
+   ],
+   "provisioners": [
+   {
+     "inline": [
+       "wget http://192.168.161.245:8081/nexus/content/repositories/releases/com/efsavage/hello-world-war/1.0.0/hello-world-war-1.0.0.war",
+       "cp hello-world-war-1.0.0.war /usr/local/tomcat/webapps/"
+     ],
+     "type": "shell"
+   }
+   ],
+   "post-processors": [
+     [
+     {
+        "type":"docker-tag",
+        "repository" : "billybrewster/tomcat",
+        "tag": "latest",
+        "force": "true"
+     },
+     {
+       "type": "docker-push",
+       "login": "true",
+       "login_username": "billybrewster",
+       "login_password": "Newcastle1892!"
+     }
+     ]
+   ]
+}
