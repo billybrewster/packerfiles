@@ -2,22 +2,16 @@
    "builders": [
    {
      "type": "docker",
-     "image": "centos",
+     "image": "gitlab/gitlab-ce",
      "commit": true,
      "exec_user": "root",
-     "changes": [
-    "EXPOSE 22",
-    "ENTRYPOINT /usr/sbin/sshd -D"
-  ]
    }
    ],
    "provisioners": [
    {
      "inline": [
-       "yum install -y maven",
        "yum install -y graphviz",
        "yum install -y wget",
-       "yum install -y git",
        "wget https://github.com/jgm/pandoc/releases/download/2.1.1/pandoc-2.1.1-linux.tar.gz",
        "gunzip pandoc-2.1.1-linux.tar.gz",
        "tar -xvf pandoc-2.1.1-linux.tar",
@@ -28,38 +22,16 @@
        "ssh-keygen -A"
      ],
      "type": "shell"
-   },
-   {
-     "type": "file",
-     "source": "provision.sh",
-     "destination": "/var/tmp/provision.sh"
-   },
-   {
-     "type": "file",
-     "source": "maven_config.xml",
-     "destination": "/var/tmp/maven_config.xml"
-   },
-   {
-     "inline": [
-       "/var/tmp/provision.sh"
-     ],
-     "type": "shell"
    }
    ],
    "post-processors": [
      [
      {
         "type":"docker-tag",
-        "repository" : "billybrewster/jenkins_slave",
+        "repository" : "billybrewster/gitlab",
         "tag": "latest",
         "force": "true"
      },
-     {
-       "type": "docker-push",
-       "login": "true",
-       "login_username": "billybrewster",
-       "login_password": "Newcastle1892!"
-     }
      ]
    ]
 }
